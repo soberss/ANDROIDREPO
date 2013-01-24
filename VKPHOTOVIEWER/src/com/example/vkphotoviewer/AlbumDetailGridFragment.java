@@ -1,15 +1,13 @@
 package com.example.vkphotoviewer;
 
 import com.example.vkphotoviewer.R;
+import com.example.vkphotoviewer.controllers.ItemGridAdapter;
+import com.example.vkphotoviewer.controllers.ModelsLoader;
+import com.example.vkphotoviewer.models.Photo;
 
-import models.Photo;
 
-import controllers.ModelsGridViewAdapter;
-import controllers.ModelsListAdapter;
-import controllers.ModelsLoader;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +19,7 @@ import android.widget.TextView;
 
 public class AlbumDetailGridFragment extends Fragment {
 		
+	private ItemGridAdapter mAlbumPhotosAdapter;
 	private GridView mGridView;
 	private TextView mTitle;
 	
@@ -38,9 +37,7 @@ public class AlbumDetailGridFragment extends Fragment {
 	};
 	
 	public AlbumDetailGridFragment(){}
-	
-	
-	
+			
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,13 +55,17 @@ public class AlbumDetailGridFragment extends Fragment {
 			
 		mGridView = (GridView) rootView.findViewById(R.id.gridview);		
 		mGridView.setOnItemClickListener(gvOnItemClickListener);
-			
-		ModelsGridViewAdapter albumPhotosAdapter = new ModelsGridViewAdapter(getActivity(), ModelsLoader.getInstance().getCurrentAlbum().getPhotos(), 
-					R.layout.image_grid_item, ModelsListAdapter.LIST_ATTR_NAMES, ModelsListAdapter.LIST_VIEWS);
-
-		mGridView.setAdapter(albumPhotosAdapter);
-		ModelsLoader.getInstance().setAlbumPhotosAdapter(albumPhotosAdapter);
-		ModelsLoader.getInstance().loadAlbumPhotosList();
+		
+		//ItemGridAdapter 
+		mAlbumPhotosAdapter = new ItemGridAdapter(getActivity(), ModelsLoader.getInstance().getCurrentAlbum().getPhotos());
+		mGridView.setAdapter(mAlbumPhotosAdapter);
+		//ModelsLoader.getInstance().setAlbumPhotosAdapter(albumPhotosAdapter);
+		ModelsLoader.getInstance().loadAlbumPhotosList(new ModelsLoader.AdapterCallbacks(){						
+			@Override
+			public void onModelAdded() {				
+				mAlbumPhotosAdapter.notifyDataSetChanged();
+			}
+		});
 					
 		return rootView;
 	}

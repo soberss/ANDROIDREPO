@@ -1,9 +1,10 @@
-package controllers;
+package com.example.vkphotoviewer.controllers;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
-import dataproviding.BitmapDataProvider;
+import com.example.vkphotoviewer.dataproviding.BitmapDataProvider;
+
 
 import android.graphics.Bitmap;
 import android.os.Handler;

@@ -1,19 +1,20 @@
-package controllers;
+package com.example.vkphotoviewer.controllers;
 
 import java.util.ArrayList;
 
-import models.Album;
-import models.CurrentSession;
-import models.Photo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.UrlStringBuilder;
-import utils.VkSettings;
+import com.example.vkphotoviewer.dataproviding.JsonDataProvider;
+import com.example.vkphotoviewer.models.Album;
+import com.example.vkphotoviewer.models.CurrentSession;
+import com.example.vkphotoviewer.models.Photo;
+import com.example.vkphotoviewer.utils.UrlStringBuilder;
+import com.example.vkphotoviewer.utils.VkSettings;
 
-import dataproviding.JsonDataProvider;
+
 
 import android.os.Handler;
 import android.os.Message;

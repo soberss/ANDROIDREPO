@@ -1,4 +1,4 @@
-package controllers;
+package com.example.vkphotoviewer.controllers;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -9,12 +9,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.example.vkphotoviewer.AuthActivity.WebViewCallbacks;
+import com.example.vkphotoviewer.models.CurrentSession;
+import com.example.vkphotoviewer.parsers.RegExpParser;
+import com.example.vkphotoviewer.utils.UrlStringBuilder;
+import com.example.vkphotoviewer.utils.VkSettings;
 
-import models.CurrentSession;
 
-import parsers.RegExpParser;
-import utils.UrlStringBuilder;
-import utils.VkSettings;
 
 
 

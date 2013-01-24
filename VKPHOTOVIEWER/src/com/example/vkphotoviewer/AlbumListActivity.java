@@ -1,12 +1,14 @@
 package com.example.vkphotoviewer;
 
 import com.example.vkphotoviewer.R;
+import com.example.vkphotoviewer.controllers.ModelsLoader;
 
-import controllers.ModelsLoader;
-import controllers.SessionLoader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -64,7 +66,12 @@ public class AlbumListActivity extends FragmentActivity implements
 		Intent intent;
 	    switch (item.getItemId()) {	        
 	        case R.id.menu_logout:
-	        	SessionLoader.getInstance().resetSession();
+	        		        	
+	        	SharedPreferences mPref = getSharedPreferences(AuthActivity.PREF_FILE_NAME, Context.MODE_PRIVATE);		
+	    	    Editor ed = mPref.edit();	    	    
+	    	    ed.clear();
+	        	ed.commit();
+	        	
 	        	intent = new Intent(); 
 		        intent.setClass(this, AuthActivity.class);
 		        this.startActivity(intent);        
@@ -77,8 +84,10 @@ public class AlbumListActivity extends FragmentActivity implements
 		        intent.setClass(this, AlbumListActivity.class);
 		        this.startActivity(intent);
 	            return true;
+	            
 	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+	            return super.onOptionsItemSelected(item);	            
+	    }	    
 	}
+	
 }

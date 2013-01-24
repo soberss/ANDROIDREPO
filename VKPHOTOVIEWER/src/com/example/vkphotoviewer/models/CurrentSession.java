@@ -1,4 +1,4 @@
-package models;
+package com.example.vkphotoviewer.models;
 
 
 /**represents parameters of user session form VK API calling*/

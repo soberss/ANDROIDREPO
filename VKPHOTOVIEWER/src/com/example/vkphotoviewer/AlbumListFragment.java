@@ -1,23 +1,21 @@
 package com.example.vkphotoviewer;
 
-import com.example.vkphotoviewer.R;
+import com.example.vkphotoviewer.controllers.ItemListAdapter;
+import com.example.vkphotoviewer.controllers.ModelsLoader;
+import com.example.vkphotoviewer.models.Album;
 
-import models.Album;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import controllers.ModelsListAdapter;
-import controllers.ModelsLoader;
 
 
 public class AlbumListFragment extends ListFragment {
 	
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
+	private ItemListAdapter mAlbumsAdapter;
 	
 	private AlbumsCallbacks mCallbacks = sEmptyCallbacks;
 	
@@ -44,18 +42,21 @@ public class AlbumListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ModelsListAdapter albumsAdapter = new ModelsListAdapter(getActivity(), ModelsLoader.getInstance().getAlbums(), 
-				R.layout.image_list_item, ModelsListAdapter.LIST_ATTR_NAMES, ModelsListAdapter.LIST_VIEWS);
-		setListAdapter(albumsAdapter);
-		ModelsLoader.getInstance().setAlbumsAdapter(albumsAdapter);
-		ModelsLoader.getInstance().loadAlbumsList();
+				
+		mAlbumsAdapter = new ItemListAdapter(getActivity(), ModelsLoader.getInstance().getAlbums());
+		setListAdapter(mAlbumsAdapter);
+				
+		ModelsLoader.getInstance().loadAlbumsList(new ModelsLoader.AdapterCallbacks(){
+			@Override
+			public void onModelAdded() {
+				mAlbumsAdapter.notifyDataSetChanged();				
+			}});
 		
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);	
-		// Restore the previously serialized activated item position.
+		super.onViewCreated(view, savedInstanceState);			
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState
@@ -66,21 +67,17 @@ public class AlbumListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
+		
 		if (!(activity instanceof AlbumsCallbacks)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's callbacks.");
 		}
-
 		mCallbacks = (AlbumsCallbacks) activity;
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
 		mCallbacks = sEmptyCallbacks;
 	}
 
@@ -89,9 +86,7 @@ public class AlbumListFragment extends ListFragment {
 			long id) {
 		super.onListItemClick(listView, view, position, id);
 		Album album = (Album) listView.getItemAtPosition(position);
-		ModelsLoader.getInstance().setCurrentAlbum(album);
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
+		ModelsLoader.getInstance().setCurrentAlbum(album);		
 		mCallbacks.onAlbumSelected(album.getId());
 	}
 
@@ -125,4 +120,5 @@ public class AlbumListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
 }

@@ -1,4 +1,4 @@
-package models;
+package com.example.vkphotoviewer.models;
 
 import java.util.ArrayList;
 

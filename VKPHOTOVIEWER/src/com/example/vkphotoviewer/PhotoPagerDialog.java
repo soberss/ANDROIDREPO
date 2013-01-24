@@ -1,9 +1,9 @@
 package com.example.vkphotoviewer;
 
 import com.example.vkphotoviewer.R;
+import com.example.vkphotoviewer.controllers.ItemPagerAdapter;
+import com.example.vkphotoviewer.controllers.ModelsLoader;
 
-import controllers.ModelsLoader;
-import controllers.ModelsPagerAdapter;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -36,7 +36,7 @@ public class PhotoPagerDialog extends DialogFragment implements OnClickListener{
 	    View v = inflater.inflate(R.layout.dialog_pager_fragment, null);
 	    	    	    	    
 	    ViewPager pager = (ViewPager) v.findViewById(R.id.pager);	    
-	    pager.setAdapter(new ModelsPagerAdapter(getActivity()));	    
+	    pager.setAdapter(new ItemPagerAdapter(getActivity()));	    
 	    pager.setCurrentItem(mPosition);
 	    		    		    
 	    return v;
